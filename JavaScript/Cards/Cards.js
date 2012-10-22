@@ -10,48 +10,37 @@ function evaluateHand(hand)
     var suit = new String();
     var splitHand = hand.split(' ');
     for (var card in splitHand)
-        {
-            var i = 0;
-            var cardValue = new String();
-            for (; i <= card.length; i++)
-                {
-                    if (! isNaN(splitHand[card].charAt(i)))
-                        {
-                            // It's a Number;
-                            var number = splitHand[card].charAt(i) + '';
-                            cardValue += number;
-                        }
-                    else
-                        {
-                            // It's a letter;
-                            if (splitHand[card].charAt(i) == 'A' || splitHand[card].charAt(i) == 'J' || splitHand[card].charAt(i) == 'Q' || splitHand[card].charAt(i) == 'K')
-                                {
-                                    cardValue = values[splitHand[card].charAt(i)] + '';
-                                }
-                            else
-                                {
-                                    if (suit.lastIndexOf(splitHand[card].charAt(i)) == -1)
-                                        {
-                                            suit += splitHand[card].charAt(i);
-                                        }
-                                }
-                        }
-                }
-            totalValue += parseInt(cardValue);
-        }
+    {
+	var i = 0;
+	var cardValue = new String();
+	for (; i <= card.length; i++)
+	{
+	    var charReaded = splitHand[card].charAt(i);
+	    if (! isNaN(charReaded))
+	    {
+		// It's a Number;
+		var number = charReaded + '';
+		cardValue += number;
+	    }
+	    else
+	    {
+		// It's a letter;
+		if (charReaded == 'A' || charReaded == 'J' || charReaded == 'Q' || charReaded == 'K')
+		// It's a Value
+		    cardValue = values[charReaded] + '';
+		else
+		    // It's the suit
+		    if (suit.lastIndexOf(charReaded) == -1)
+			suit += splitHand[card].charAt(i);
+	    }
+	}
+	totalValue += parseInt(cardValue);
+    }
     if (suit.length == 2)
-        {
-            totalValue += 10;
-        }
+	totalValue += 10;
     else if (suit.length == 1)
-        {
-            totalValue += 25;
-        }
+	totalValue += 25;
     return totalValue;
 }
 
 module.exports.evaluateHand = evaluateHand;
-
-// print (evaluateHand("2C 10H AD KH 4S"));
-// print (evaluateHand("9H QD QC 3H 3D AC AH"));
-// print (evaluateHand("7C 8C AC 4D"));
